@@ -3,6 +3,7 @@ from sqlalchemy.orm import sessionmaker
 
 engine = create_engine('sqlite:///example.db', echo=True)
 
+#TODO: use oop style to implement SQLAlchemy 
 metadata = MetaData()
 
 users_table = Table(
