@@ -5,8 +5,8 @@ from . import Base
 class User(Base):
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True)
-    username = Column(String(50), unique=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str] = mapped_column(String(50), unique=True)
     
     commands = relationship('Command', back_populates='user')
 
