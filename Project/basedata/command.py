@@ -10,9 +10,9 @@ class Command(Base):
     __tablename__ = 'commands'
 
     id:  Mapped[int] = mapped_column (primary_key=True)
-    text = Column(String(225))
-    timestamp = Column(DateTime, default=datetime.utcnow)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    text: Mapped[str] = mapped_column (String(225)
+    timestamp: Mapped[str] = mapped_column (DateTime, default=datetime.utcnow)
+    user_id = Mapped[int] = mapped_column (ForeignKey('users.id')
     
     user = relationship('User', back_populates='commands')
 
