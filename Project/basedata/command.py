@@ -14,7 +14,7 @@ class Command(Base):
     timestamp: Mapped[str] = mapped_column (DateTime, default=datetime.utcnow)
     user_id: Mapped[int] = mapped_column (ForeignKey('users.id')
     
-    user: Mapped["Staff"] = ('User', back_populates='commands')
+    user: Mapped["Staff"] = relationship('User', back_populates='commands')
 
 # commands_table = Table(
 #     'commands',
