@@ -8,7 +8,7 @@ class User(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str] = mapped_column(String(50), unique=True)
     
-    commands = relationship('Command', back_populates='user')
+    commands: Mapped["Staff"] =relationship('Command', back_populates='user')
 
 # #users_table = Table(
 #     'users',
