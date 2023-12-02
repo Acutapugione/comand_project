@@ -12,7 +12,7 @@ class Command(Base):
     id:  Mapped[int] = mapped_column (primary_key=True)
     text: Mapped[str] = mapped_column (String(225)
     timestamp: Mapped[str] = mapped_column (DateTime, default=datetime.utcnow)
-    user_id = Mapped[int] = mapped_column (ForeignKey('users.id')
+    user_id: Mapped[int] = mapped_column (ForeignKey('users.id')
     
     user = relationship('User', back_populates='commands')
 
