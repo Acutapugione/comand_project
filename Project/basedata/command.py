@@ -9,10 +9,10 @@ from dataclasses import dataclass
 class Command(Base):
     __tablename__ = 'commands'
 
-    id:  Mapped[int] = mapped_column (primary_key=True)
-    text: Mapped[str] = mapped_column (String(225)
-    timestamp: Mapped[str] = mapped_column (DateTime, default=datetime.utcnow)
-    user_id: Mapped[int] = mapped_column (ForeignKey('users.id')
+    id:  Mapped[int] = mapped_column(primary_key=True)
+    text: Mapped[str] = mapped_column(String(225)
+    timestamp: Mapped[str] = mapped_column(DateTime, default=datetime.utcnow)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id')
     
     user: Mapped["Staff"] = relationship('User', back_populates='commands')
 
