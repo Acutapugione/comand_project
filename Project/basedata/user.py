@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Table, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Table, ForeignKey,Staff
+from sqlalchemy.orm import relationship,Mapped,Staff,mapped_column
 from . import Base
 
 class User(Base):
@@ -9,10 +9,3 @@ class User(Base):
     username: Mapped[str] = mapped_column(String(50), unique=True)
     
     commands: Mapped["Staff"] =relationship('Command', back_populates='user')
-
-# #users_table = Table(
-#     'users',
-#     metadata,
-#     Column('id', Integer, primary_key=True),
-#     Column('username', String(50), unique=True),
-# )
