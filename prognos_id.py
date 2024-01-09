@@ -1,46 +1,42 @@
-import requests
-from config import bot_token, code_to_smile_eu
-import asyncio
-from prognos_todae import dp
-from weatherstate import WeatherState
-from aiogram import Bot, Dispatcher, F
-from aiogram.enums import ParseMode
-from aiogram import types
+from pydantic import BaseModel
+from datetime import datetime
+from typing import List
+from sqlalchemy import Column, Integer, Float, DateTime, String
+from database import Base
+from sqlalchemy.orm import Mapped,mapped_column
 
+class PrognosForecastDays(Base):
+    __tablename__ = 'prognos_forecast_days'
 
-@dp.callback_query(F.data=="prognos_id")
-async def get_weathe(message: types.Message):
-    try:
-        r = requests.get(f'http://api.weatherstack.com/forecast?access_key=588131fccadc25dc232cff82b281bc5c&query=fetch:ip')
-        data = r.json()
-        localtime = data["location"]["localtime"]
-        country = data["location"]["country"]
-        weather_descriptions = data["current"]["weather_descriptions"]
-        wd = [code_to_smile_eu[desc]
-              if desc in code_to_smile_eu
-              else "Подивися в вікно, а то і сам я не зрозумію" for desc in weather_descriptions
-              ]
-        temperature = data["current"]["temperature"]
-        wind_speed = data["current"]["wind_speed"]
-        wind_dir = data["current"]["wind_dir"]
-        pressure = data["current"]["pressure"]
+    id: Mapped[Integer] = mapped_column(primary_key=True)
+    city: Mapped[str] 
+    date = Column(DateTime, default=datetime.utcnow)
+    temperature_min: Column[Float]
+    temperature_max: Column[Float]
+    wind_speed: Column[Float]
+    wind_direction: Column[Float]
+    pressure: Column[Float]
 
-        await message.message.reply(f'***{localtime}***\nКраїна: {country}\n'
-                            f'Яка буде сьогодні погода: {weather_descriptions} {wd}\n'
-                            f'Температура: {temperature} C°\nШвидкість вітру: {wind_speed}\n'
-                            f'В яку сторону дує вітер: {wind_dir}\nТиск: {pressure}')
+class PrognosToday(Base):
+    __tablename__ = 'prognos_today'
 
-    except:
-        await message.message.reply('Провірте назву міста')
+    id: Mapped[Integer] = mapped_column(primary_key=True)
+    city: Column[String]
+    country: Column[String]
+    weather_description: Column[String]
+    temperature: Column[Float]
+    wind_speed: Column[Float]
+    wind_direction: Column[String]
+    pressure: Column[Float]
+    timestamp: Column [DateTime] = Mapped (default=datetime.utcnow)
 
-async def main():
-    bot = Bot(token=bot_token, parse_mode=ParseMode.HTML)
-    dispatcher = Dispatcher()
-    dispatcher.include_router(dp)
-
-    await dispatcher.start_polling(bot)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
-    
+class PrognosTodayId(Base):
+    __tablename__ = 'prognos_today_id'
+    id: [Integer] = mapped_column(primary_key=True)
+    city: Column[String]
+    country: Column[String]
+    datetime = Column(DateTime, default=datetime.utcnow)
+    temperature: Column[Float]
+    wind_speed : Column[Float]
+    wind_direction: Column[String]
+    pressure: Column[Float]
